@@ -55,7 +55,7 @@ export default async function handler(req, res) {
 
       if (!response.ok) continue;
       const data = await response.json();
-      let text = data?.choices?.?.message?.content || '';
+      let text = data?.choices?.[0]?.message?.content || '';
       text = text.replace(/```json/g, '').replace(/```/g, '').trim();
       const parsed = JSON.parse(text);
       return res.status(200).json(parsed);
