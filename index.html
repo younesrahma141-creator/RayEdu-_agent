@@ -3,140 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RayEdu | وكيل الذكاء الاصطناعي للتعليم والتوظيف</title>
+  <title>RayEdu AI Agent</title>
   <link href="https://googleapis.com" rel="stylesheet">
   <style>
-    :root {
-      --primary: #4f46e5;
-      --primary-dark: #3730a3;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --success: #10b981;
-    }
     * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-    body { background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
-    
-    .navbar { background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%); color: white; padding: 25px 20px; text-align: center; }
-    .navbar .badge { background: rgba(255,255,255,0.15); padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.3); }
-    .navbar h1 { margin: 0; font-size: 26px; font-weight: 800; }
-    .navbar p { margin: 8px auto 0; max-width: 650px; color: #e0e7ff; font-size: 14px; }
-
-    .container { max-width: 850px; margin: 20px auto 40px; padding: 0 16px; }
-    .card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #e2e8f0; }
-    .section-title { font-size: 18px; font-weight: 800; color: var(--primary-dark); margin-top: 0; margin-bottom: 16px; }
-    
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
-    
-    label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 14px; color: #334155; }
-    select, textarea { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; background: #ffffff; color: #0f172a; }
-    select:focus, textarea:focus { outline: none; border-color: var(--primary); }
-    
-    .sample-btn { background: #e0e7ff; color: var(--primary-dark); border: 1px solid #c7d2fe; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-block; margin-bottom: 10px; }
-    .main-btn { background: #4f46e5; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 14px; }
-    .main-btn:disabled { background: #94a3b8; cursor: not-allowed; }
-
-    .reels-launch-btn { background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 14px; box-shadow: 0 6px 15px rgba(236, 72, 153, 0.3); }
-
-    .workflow-bar { display: none; background: #1e1b4b; color: white; padding: 18px; border-radius: 14px; margin-bottom: 20px; }
-    .step-item { margin-bottom: 8px; font-size: 14px; opacity: 0.5; }
-    .step-item.active { opacity: 1; font-weight: 700; color: #38bdf8; }
-    .step-item.done { opacity: 1; color: #34d399; }
-
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
-    .metric-card { background: #f1f5f9; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #cbd5e1; }
-    .metric-val { font-size: 18px; font-weight: 800; color: var(--primary); }
-    .metric-lbl { font-size: 12px; color: var(--muted); font-weight: 600; }
-
-    .res-block { background: #f8fafc; border-right: 4px solid var(--primary); padding: 14px 18px; border-radius: 10px; margin-bottom: 14px; }
-    .res-block h4 { margin: 0 0 8px; color: var(--primary-dark); font-size: 16px; }
-    .res-block ul { margin: 0; padding-right: 20px; }
-
-    .course-box { background: #f5f3ff; border-right-color: #7c3aed; }
-    .course-item { background: white; border: 1px solid #ddd6fe; padding: 12px; border-radius: 10px; margin-top: 10px; }
-    .course-badge { background: #7c3aed; color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
-    
-    .challenge-box { background: #fffbeb; border-right-color: #f59e0b; }
-    .answer-reveal { display: none; background: #fef3c7; padding: 10px; border-radius: 8px; margin-top: 10px; font-weight: 700; color: #92400e; }
-    .reveal-btn { background: #f59e0b; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-
-    .career-box { background: #f0fdf4; border-right-color: #10b981; }
-    .oversight-card { background: #ecfdf5; border: 2px solid #10b981; }
-    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; background: white; padding: 10px; border-radius: 10px; }
-    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--success); }
-
-    .reels-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.94); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
-    .reel-phone { width: 100%; max-width: 370px; height: 610px; max-height: 90vh; border-radius: 28px; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; color: white; box-shadow: 0 20px 50px rgba(0,0,0,0.7); position: relative; }
-    .reel-progress { display: flex; gap: 5px; margin-bottom: 10px; }
-    .prog-seg { flex: 1; height: 4px; background: rgba(255,255,255,0.3); border-radius: 4px; }
-    .prog-seg.active { background: white; }
-    .reel-header { display: flex; justify-content: space-between; align-items: center; }
-    .reel-tag { background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-    .close-reel { background: rgba(255,255,255,0.25); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; font-weight: bold; }
-    
-    .reel-main { display: flex; align-items: center; justify-content: space-between; margin: auto 0; gap: 10px; }
-    .reel-content { text-align: center; flex: 1; }
-    .reel-emoji { font-size: 46px; margin-bottom: 8px; display: block; }
-    .reel-title { font-size: 14px; opacity: 0.9; margin-bottom: 8px; font-weight: 700; }
-    .reel-text { font-size: 17px; font-weight: 800; line-height: 1.5; background: rgba(0,0,0,0.28); padding: 15px; border-radius: 16px; }
-    
-    .tiktok-sidebar { display: flex; flex-direction: column; gap: 14px; align-items: center; }
-    .tk-icon { background: rgba(255,255,255,0.2); border: none; color: white; width: 42px; height: 42px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .tk-lbl { font-size: 10px; font-weight: 700; margin-top: 2px; text-align: center; }
-
-    .reel-controls { display: flex; justify-content: space-between; gap: 8px; }
-    .reel-nav-btn { background: rgba(255,255,255,0.25); border: none; color: white; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; flex: 1; }
-    .voice-btn { background: #10b981; border: none; color: white; padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; }
+    body { background: #f1f5f9; color: #0f172a; margin: 0; padding: 0; }
+    .header { background: linear-gradient(135deg, #1e1b4b, #4f46e5); color: white; padding: 24px 16px; text-align: center; }
+    .header h1 { margin: 6px 0; font-size: 24px; }
+    .box { max-width: 800px; margin: 16px auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    label { display: block; font-weight: 800; margin: 12px 0 6px; font-size: 14px; }
+    select, textarea { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; }
+    .btn-sample { background: #e0e7ff; color: #3730a3; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-bottom: 8px; }
+    .btn-run { background: #4f46e5; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: 800; width: 100%; margin-top: 14px; cursor: pointer; }
+    .btn-reels { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 800; width: 100%; margin-top: 12px; cursor: pointer; }
+    .block { background: #f8fafc; border-right: 4px solid #4f46e5; padding: 14px; border-radius: 10px; margin-bottom: 14px; }
+    .course { background: #f5f3ff; border-right: 4px solid #7c3aed; padding: 12px; border-radius: 10px; margin-top: 8px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; text-align: center; }
+    .m-card { background: #eef2ff; padding: 10px; border-radius: 10px; font-weight: 800; color: #3730a3; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999; align-items: center; justify-content: center; padding: 16px; }
+    .phone { width: 100%; max-width: 350px; height: 540px; border-radius: 26px; padding: 20px; color: white; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+    .r-text { background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; font-size: 18px; font-weight: 800; }
+    .r-btns { display: flex; gap: 8px; }
+    .r-btns button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; background: rgba(255,255,255,0.25); color: white; }
   </style>
 </head>
 <body>
-
-  <div class="navbar">
-    <span class="badge">🏆 Create AI Agents Championship - Prototype</span>
+  <div class="header">
+    <div>🏆 Create AI Agents Championship</div>
     <h1>RayEdu Autonomous Agent</h1>
-    <p>وكيل ذكي يشخص عقلية الطالب، يحول المناهج إلى Reels تفاعلية، يقترح كورسات لتقوية نقاط الضعف، ويربط الكفاءات بسوق العمل.</p>
+    <div>وكيل ذكي للتعليم التفاعلي (TikTok Reels) وتقوية المهارات والتوظيف</div>
   </div>
 
-  <div class="container">
-    <div class="card">
-      <h3 class="section-title">⚙️ مدخلات الطالب (Student Input & Context)</h3>
-      
-      <div class="grid-2">
-        <div>
-          <label>المرحلة الدراسية:</label>
-          <select id="studentLevel">
-            <option value="طالب جامعي / معهد عالي">طالب جامعي / معهد عالي</option>
-            <option value="خريج جديد يبحث عن تدريب">خريج جديد يبحث عن تدريب</option>
-            <option value="طالب مرحلة ثانوية">طالب مرحلة ثانوية</option>
-          </select>
-        </div>
-        <div>
-          <label>تحليل العقلية والميول (Psychometric Mindset):</label>
-          <select id="mindset">
-            <option value="Analytical Mindset: Loves data, math, logic, and solving complex technical problems">عقلية تحليلية (أحب الأرقام، المنطق، وحل المشكلات)</option>
-            <option value="Communicative Mindset: Empathetic, loves teamwork, public relations, and helping people">عقلية تواصلية (أحب العمل الجماعي، الإقناع، ومساعدة الناس)</option>
-            <option value="Creative Mindset: Visual learner, loves innovation, design, and building new ideas">عقلية إبداعية (أتعلم بصرياً وأحب الابتكار والتصميم)</option>
-          </select>
-        </div>
-      </div>
+  <div class="box">
+    <label>المرحلة الدراسية:</label>
+    <select id="lvl">
+      <option>طالب جامعي / معهد عالي</option>
+      <option>خريج جديد يبحث عن تدريب</option>
+      <option>طالب مرحلة ثانوية</option>
+    </select>
 
-      <div style="margin-top: 16px;">
-        <label>نص المحاضرة أو الجزء الصعب في المنهج:</label>
-        <button type="button" class="sample-btn" onclick="fillSample()">✨ اضغط هنا لتعبئة مثال تجريبي جاهز للحكام</button>
-        <textarea id="lecture" rows="4" placeholder="اكتب أو الصق هنا فقرة من أي مادة دراسية ليقوم الوكيل بتحليلها..."></textarea>
-      </div>
+    <label>أسلوب تفكيرك (Mindset):</label>
+    <select id="mind">
+      <option value="تحليلية">عقلية تحليلية (أحب الأرقام والمنطق وحل المشكلات)</option>
+      <option value="تواصلية">عقلية تواصلية (أحب العمل الجماعي والإقناع)</option>
+      <option value="إبداعية">عقلية إبداعية (أتعلم بصرياً وأحب الابتكار)</option>
+    </select>
 
-      <button type="button" id="runBtn" class="main-btn" onclick="executeAgent()">🚀 تشغيل الوكيل الذكي (بدء التشخيص والتنفيذ التلقائي)</button>
+    <label>نص المحاضرة أو الدرس:</label>
+    <button type="button" class="btn-sample" id="sampleBtn">✨ اضغط لتعبئة مثال تجريبي جاهز</button>
+    <textarea id="txt" rows="4" placeholder="اكتب أو الصق نص الدرس هنا..."></textarea>
+
+    <button type="button" class="btn-run" id="runBtn">🚀 تشغيل الوكيل الذكي الآن</button>
+  </div>
+
+  <div class="box" id="resBox" style="display:none;">
+    <div class="metrics">
+      <div class="m-card" id="mTime">1.2s<br><small>السرعة</small></div>
+      <div class="m-card">25 دقيقة<br><small>الوقت الموفر</small></div>
+      <div class="m-card">$0.00<br><small>التكلفة</small></div>
     </div>
 
-    <div id="workflowBar" class="workflow-bar">
-      <div style="font-weight: 800; margin-bottom: 10px; color: #c7d2fe;">🤖 سجل اتخاذ القرار للوكيل (Live Agent Execution Log):</div>
-      <div id="step1" class="step-item">⏳ 1. تحليل النمط العقلي واكتشاف نقاط الضعف في المنهج...</div>
-      <div id="step2" class="step-item">⏳ 2. إنتاج شرائح TikTok Reels تعليمية سريعة...</div>
-      <div id="step3" class="step-item">⏳ 3. ترشيح كورسات تدريبية لتقوية مهارات الطالب...</div>
-      <div id="step4" class="step-item">⏳ 4. توليد سؤال التحدي ومطابقة فرص التدريب العملي...</div>
+    <div class="block">
+      <h4>🧠 1. التشخيص ونقطة الضعف المكتشفة</h4>
+      <p id="outDiag"></p>
     </div>
 
-    <div id="resultsArea" style="display: none;">
+    <div class="block">
+      <h4>⚡ 2. الملخص الذكي وربطه بسوق العمل</h4>
+      <ul id="outSum"></ul>
+      <p id="outJob" style="font-weight:800; color:#3730a3;"></p>
+      <button type="button" class="btn-reels" id="reelsBtn">🎬 مشاهدة الدرس كـ TikTok Reels بالصوت</button>
+    </div>
+
+    <div class="block">
+      <h4>📚 3. كورسات مقترحة لتقوية نقاط ضعفك</h4>
+      <div id="outCourses"></div>
+    </div>
+
+    <div class="block" style="background:#fffbeb; border-color:#f59e0b;">
+      <h4>🎯 4. تحدي الذكاء والتدريب المرشح</h4>
+      <p id="outChal"></p>
+      <p id="outInt" style="font-weight:800; color:#047857;"></p>
+    </div>
+
+    <div class="block" style="background:#ecfdf5; border-color:#10b981;">
+      <h4>🛡️ الإشراف البشري وحماية الخصوصية</h4>
+      <label><input type="checkbox" id="priv"> أوافق على مشاركة ملفي المهني مع الشركات المعتمدة للتدريب.</label>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="phone" id="phone" style="background:linear-gradient(135deg,#4f46e5,#ec4899);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <b>📱 RayEdu Reels</b>
+        <button type="button" id="closeBtn" style="background:rgba(255,255,255,0.3); border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:800;">✕</button>
+      </div>
+      <div>
+        <div style="font-size:44px; margin-bottom:10px;" id="rEmoji">💡</div>
+        <div id="rTitle" style="font-size:14px; margin-bottom:8px;"></div>
+        <div class="r-text" id="rText"></div>
+      </div>
+      <div class="r-btns">
+        <button type="button" id="prevBtn">⬆️ السابق</button>
+        <button type="button" id="speakBtn" style="background:#10b981;">🔊 صوت</button>
+        <button type="button" id="nextBtn">⬇️ التالي</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var slides = [], idx = 0;
+    var colors = ['linear-gradient(135deg,#4f46e5,#7c3aed)', 'linear-gradient(135deg,#0ea5e9,#2563eb)', 'linear-gradient(135deg,#ec4899,#db2777)', 'linear-gradient(135deg,#10b981,#059669)'];
+
+    document.getElementById('sampleBtn').onclick = function() {
+      document.getElementById('txt').value = "التجارة الإلكترونية B2B و B2C: تركز B2B على الصفقات الكبيرة والعلاقات طويلة الأمد بين الشركات، بينما تركز B2C على البيع المباشر للمستهلك وسرعة الشراء والتسويق الرقمي.";
+    };
+
+    document.getElementById('runBtn').onclick = async function() {
+      var text = document.getElementById('txt').value.trim();
+      if (!text) { alert('يرجى كتابة نص الدرس أو الضغط على زر المثال التجريبي'); return; }
+      var btn = this;
+      btn.disabled = true;
+      btn.innerText = '⏳ جاري التحليل وتشغيل الوكيل...';
+      var t0 = Date.now();
+
+      try {
+        var res = await fetch('/api/agent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lectureText: text,
+            mindsetAnswer: document.getElementById('mind').value,
+            studentLevel: document.getElementById('lvl').value
+          })
+        });
+        var d = await res.json();
+        if (!res.ok || d.error) throw new Error(d.details || d.error || 'خطأ في الاتصال');
+
+        document.getElementById('mTime').innerHTML = ((Date.now() - t0)/1000).toFixed(1) + 's<br><small>السرعة</small>';
+        document.getElementById('outDiag').innerText = 'العقلية: ' + (d.mindsetType || '') + ' | نقطة التركيز: ' + (d.weakPointDetected || '');
+        
+        var ul = document.getElementById('outSum'); ul.innerHTML = '';
+        (d.microSummary || []).forEach(function(s) { var li = document.createElement('li'); li.innerText = s; ul.appendChild(li); });
+        
+        document.getElementById('outJob').innerText = '💼 في سوق العمل: ' + (d.jobMarketValue || '');
+        
+        var cDiv = document.getElementById('outCourses'); cDiv.innerHTML = '';
+        (d.recommendedCourses || []).forEach(function(c) {
+          cDiv.innerHTML += '<div class="course"><b>🎓 ' + c.title + '</b> (' + c.platform + ')<br><small>المهارة: ' + c.skill + '</small></div>';
+        });
+
+        document.getElementById('outChal').innerText = '❓ التحدي: ' + (d.challengeQuestion || '') + ' (الإجابة: ' + (d.challengeAnswer || '') + ')';
+        document.getElementById('outInt').innerText = '🚀 التدريب المقترح: ' + (d.internshipTrack || '');
+
+        slides = [
+          { e: '🧠', t: 'نقطة الضعف المكتشفة', x: d.weakPointDetected || '' },
+          { e: '⚡', t: 'الخلاصة الأولى', x: (d.microSummary && d.microSummary[0]) || '' },
+          { e: '🔥', t: 'الخلاصة الثانية', x: (d.microSummary && d.microSummary[1]) || '' },
+          { e: '💼', t: 'تطبيقها في سوق العمل', x: d.jobMarketValue || '' }
+        ];
+        document.getElementById('resBox').style.display = 'block';
+      } catch (e) {
+        alert('تنبيه: ' + e.message);
+      }
+      btn.disabled = false;
+      btn.innerText = '🚀 تشغيل الوكيل الذكي الآن';
+    };
+
+    function showSlide() {
+      var s = slides[idx];
+      document.getElementById('phone').style.background = colors[idx % colors.length];
+      document.getElementById('rEmoji').innerText = s.e;
+      document.getElementById('rTitle').innerText = s.t + ' (' + (idx+1) + '/' + slides.length + ')';
+      document.getElementById('rText').innerText = s.x;
+    }
+
+    document.getElementById('reelsBtn').onclick = function() { idx = 0; document.getElementById('overlay').style.display = 'flex'; showSlide(); };
+    document.getElementById('closeBtn').onclick = function() { window.speechSynthesis.cancel(); document.getElementById('overlay').style.display = 'none'; };
