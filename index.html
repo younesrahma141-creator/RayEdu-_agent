@@ -4,84 +4,116 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RayEdu AI Agent</title>
+  <script src="https://jsdelivr.net"></script>
   <style>
     *{box-sizing:border-box;font-family:system-ui,sans-serif}
     body{background:#f1f5f9;color:#0f172a;margin:0;padding:12px}
     .box{max-width:750px;margin:10px auto;background:#fff;padding:20px;border-radius:18px;box-shadow:0 4px 15px rgba(0,0,0,0.06)}
-    .top{background:#3730a3;color:#fff;text-align:center}
+    .top{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:#fff;text-align:center}
     .scr{display:none}.scr.on{display:block}
     label{display:block;font-weight:bold;margin:10px 0 5px;font-size:14px}
     select,textarea,input[type=text]{width:100%;padding:11px;border:2px solid #cbd5e1;border-radius:10px;font-size:15px}
-    .btn{border:none;border-radius:12px;font-weight:bold;cursor:pointer;padding:14px;font-size:16px;width:100%;margin-top:10px;background:#4f46e5;color:#fff}
-    .btn-s{background:#e0e7ff;color:#3730a3;width:auto;padding:7px 12px;font-size:13px}
-    .btn-p{background:#db2777}.btn-g{background:#10b981}.btn-a{background:#f59e0b}
+    .btn{border:none;border-radius:12px;font-weight:bold;cursor:pointer;padding:13px;font-size:15px;width:100%;margin-top:10px;background:#4f46e5;color:#fff}
+    .btn-s{background:#e0e7ff;color:#3730a3;width:auto;padding:8px 12px;font-size:13px}
+    .btn-p{background:linear-gradient(135deg,#ec4899,#8b5cf6)}.btn-g{background:#10b981}.btn-a{background:#f59e0b}
+    .upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+    .up-btn{background:#f8fafc;border:2px dashed #6366f1;color:#3730a3;padding:10px 6px;border-radius:12px;text-align:center;font-size:12px;font-weight:bold;cursor:pointer}
     .card{background:#f8fafc;border-right:4px solid #4f46e5;padding:12px;border-radius:10px;margin:10px 0}
     .tag{display:inline-block;background:#e0e7ff;color:#3730a3;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:bold;margin:4px;cursor:pointer}
-    .mod{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:99;align-items:center;justify-content:center;padding:16px}
-    .reel{background:linear-gradient(135deg,#4f46e5,#db2777);color:#fff;width:100%;max-width:340px;height:500px;border-radius:24px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;text-align:center}
+    
+    .mod{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99;align-items:center;justify-content:center;padding:16px}
+    .reel{background:radial-gradient(circle at top,#312e81,#0f172a);color:#fff;width:100%;max-width:350px;height:550px;border-radius:28px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;border:2px solid #6366f1}
+    .ai-stage{position:relative;margin:auto 0;padding:16px}
+    .ai-visual{width:100%;height:170px;border-radius:18px;object-fit:cover;margin-bottom:12px;border:2px solid rgba(255,255,255,0.2);animation:zoom 8s infinite alternate}
+    @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .avatar-wrap{width:95px;height:95px;margin:-45px auto 8px;border-radius:50%;border:3px solid #10b981;background:#1e1b4b;overflow:hidden;position:relative;box-shadow:0 0 20px rgba(16,185,129,0.6)}
+    .avatar-wrap.talking{animation:talk 0.4s infinite alternate}
+    @keyframes talk{from{transform:scale(1);border-color:#10b981}to{transform:scale(1.08);border-color:#ec4899}}
+    .wave{display:flex;justify-content:center;gap:4px;height:24px;align-items:center;margin-top:8px}
+    .bar{width:4px;height:8px;background:#38bdf8;border-radius:4px}
+    .talking .bar{animation:eq 0.5s infinite alternate}
+    .bar:nth-child(2){animation-delay:0.1s}.bar:nth-child(3){animation-delay:0.2s}.bar:nth-child(4){animation-delay:0.3s}
+    @keyframes eq{from{height:6px}to{height:24px}}
   </style>
 </head>
 <body>
+
 <div class="box top">
   <h2 style="margin:0">🏆 RayEdu Autonomous Agent</h2>
-  <p style="margin:6px 0 0;font-size:14px">وكيلك الذكي للتشخيص، الفيديو التفاعلي، وتحدي الأصدقاء</p>
+  <p style="margin:6px 0 0;font-size:14px">ارفع أي ملف وحدد الجزء الذي تريده فقط، واطلب الـ Reels على مقاسك</p>
 </div>
 
+<!-- شاشة 1: البداية -->
 <div class="box scr on" id="s1" style="text-align:center">
-  <div style="font-size:48px">🤖🎓</div>
-  <h3>أهلاً بك في رحلتك التعليمية الذكية!</h3>
-  <p>يقوم الوكيل بحفظ ملف لكل مادة، وتبسيط الدروس بالكتابة أو الفيديو التفاعلي، واختبار فهمك ومنافسة أصدقائك.</p>
+  <div style="font-size:52px">🤖🎥</div>
+  <h3>أهلاً بك في تجربة التعلم المرئي بالذكاء الاصطناعي!</h3>
+  <p>ارفع أي ملف أو صورة، وحدد للوكيل الجزء الذي تريد فهمه فقط، واختر عدد الـ Reels المناسب لوقتك.</p>
   <button type="button" class="btn" onclick="openSetup()">🚀 ابدأ الآن</button>
 </div>
 
+<!-- شاشة 2: ملفات المواد -->
 <div class="box scr" id="s2">
-  <h3>📂 ملفات المواد وتحديد القدرات</h3>
+  <h3>📂 اختر المادة أو أنشئ ملفاً جديداً</h3>
   <div id="folders"></div>
-  <label>اسم المادة (جديدة أو محفوظة):</label>
-  <input type="text" id="sub" placeholder="مثال: برمجة، أحياء، إدارة، تاريخ..." oninput="chkSub()">
+  <label>اسم المادة:</label>
+  <input type="text" id="sub" placeholder="مثال: أحياء، برمجة، تاريخ، إدارة..." oninput="chkSub()">
   <div id="qBox" class="card" style="background:#eef2ff">
-    <b>🧠 تقييم القدرات (يُحفظ تلقائياً لهذه المادة):</b>
-    <label>مستواك في المادة:</label>
-    <select id="qLvl"><option>مبتدئ وأحتاج تبسيط</option><option>متوسط</option><option>متقدم</option></select>
-    <label>أسلوب استيعابك:</label>
-    <select id="qMind"><option>عقلية تحليلية (خطوات وأرقام)</option><option>عقلية إبداعية (أمثلة وقصص)</option><option>عقلية تواصلية (تطبيقات عملية)</option></select>
+    <b>🧠 تحديد قدراتك (يُحفظ تلقائياً لهذه المادة):</b>
+    <label>مستواك:</label>
+    <select id="qLvl"><option>مبتدئ</option><option>متوسط</option><option>متقدم</option></select>
+    <label>أسلوب الشرح:</label>
+    <select id="qMind"><option>بصري وقصصي</option><option>تحليلي ومنطقي</option><option>تطبيقي وعملي</option></select>
   </div>
-  <button type="button" class="btn" onclick="saveSub()">متابعة للدرس ⬅️</button>
+  <button type="button" class="btn" onclick="saveSub()">متابعة لرفع الدرس ⬅️</button>
 </div>
 
+<!-- شاشة 3: رفع أي ملف + تحديد الجزء المطلوب + اختيار عدد الريلز -->
 <div class="box scr" id="s3">
   <div style="display:flex;justify-content:space-between;align-items:center">
-    <h3 id="subTitle" style="margin:0">📖 المادة</h3>
-    <button type="button" class="btn btn-s" onclick="go('s2')">تغيير المادة 📂</button>
+    <h3 id="subTitle" style="margin:0">📂 المادة</h3>
+    <button type="button" class="btn btn-s" onclick="go('s2')">تغيير المادة</button>
   </div>
-  <label>اكتب أو الصق الجزء الذي تريد شرحه:</label>
-  <button type="button" class="btn btn-s" onclick="document.getElementById('txt').value='الذكاء الاصطناعي التوليدي هو تقنية قادرة على إنشاء نصوص وصور وأكواد جديدة بناءً على التدريب المسبق على البيانات.'">✨ تعبئة مثال جاهز</button>
-  <textarea id="txt" rows="4" placeholder="اكتب نص الدرس هنا..."></textarea>
-  <label>طريقة الشرح المفضلة:</label>
-  <select id="pref">
-    <option value="both">الاثنان معاً (كتابة + فيديو TikTok Reels)</option>
-    <option value="reels">فيديو قصير تفاعلي بالصوت (Reels) فقط</option>
-    <option value="text">شرح مكتوب فقط</option>
+
+  <label>1. ارفع أي ملف من جهازك (صورة، PDF، Word، عرض، صوت):</label>
+  <div class="upload-grid">
+    <label class="up-btn" style="margin:0">📷 صورة / لقطة<input type="file" accept="image/*" style="display:none" onchange="readImg(this)"></label>
+    <label class="up-btn" style="margin:0">📁 رفع أي ملف<input type="file" accept="*" style="display:none" onchange="readAnyFile(this)"></label>
+    <div class="up-btn" id="micBtn" onclick="recVoice()">🎙️ تسجيل صوتك</div>
+  </div>
+  <div id="upStatus" style="font-size:13px;color:#4f46e5;font-weight:bold;margin-bottom:6px"></div>
+
+  <textarea id="txt" rows="3" placeholder="المحتوى المستخرج من الملف (أو الصق النص هنا)..."></textarea>
+  <button type="button" class="btn btn-s" onclick="document.getElementById('txt').value='يتكون الجهاز العصبي من الجهاز العصبي المركزي (الدماغ والحبل الشوكي) والجهاز العصبي الطرفي. يقوم الدماغ بمعالجة المعلومات واتخاذ القرارات، بينما ينقل الحبل الشوكي الإشارات بين الدماغ وباقي أعضاء الجسم.'">✨ مثال جاهز</button>
+
+  <label>2. حدد للوكيل الجزء الذي تريده فقط (اختياري):</label>
+  <input type="text" id="focusPart" placeholder="مثال: اشرح لي وظيفة الحبل الشوكي فقط وتجاهل الباقي...">
+
+  <label>3. اطلب عدد وطريقة الـ Reels على حسب وقتك:</label>
+  <select id="reelCount">
+    <option value="1">⚡ ريل واحد سريع جداً (فكرة مركزة في 15 ثانية)</option>
+    <option value="3" selected>🎬 3 ريلز متوسطة (شرح متوازن بالصوت والصورة)</option>
+    <option value="4">🎥 4 ريلز شاملة (شرح + تطبيق + سوق عمل)</option>
   </select>
-  <button type="button" class="btn" id="runB" onclick="runLesson(false)">⚡ ابدأ الشرح الذكي</button>
+
+  <button type="button" class="btn" id="runB" onclick="runLesson(false)">⚡ ابدأ الشرح الذكي المخصص</button>
 </div>
 
+<!-- شاشة 4: النتيجة -->
 <div class="box scr" id="s4">
   <div style="display:flex;justify-content:space-between;align-items:center">
-    <h3 style="margin:0">✨ مخرجات الوكيل الذكي</h3>
-    <button type="button" class="btn btn-s" onclick="go('s3')">درس جديد ➕</button>
+    <h3 style="margin:0">✨ الشرح المخصص جاهز!</h3>
+    <button type="button" class="btn btn-s" onclick="go('s3')">طلب جديد ➕</button>
   </div>
-  <button type="button" class="btn btn-p" id="vBtn" onclick="openR()">🎬 تشغيل فيديو الشرح التفاعلي (TikTok Reels)</button>
-  <div id="tArea">
-    <div class="card"><b>🧠 التشخيص ونقطة التركيز:</b><p id="r1"></p></div>
-    <div class="card"><b>📝 الشرح والملخص:</b><ul id="r2"></ul></div>
-    <div class="card" style="background:#f5f3ff"><b>📚 كورسات لتقويتك:</b><div id="r3"></div></div>
-  </div>
+  <button type="button" class="btn btn-p" onclick="openR()">🎥 تشغيل فيديو المعلم الذكي (AI Video Reels)</button>
+  
+  <div class="card" style="margin-top:10px"><b>📚 كورسات لتقويتك في هذا الجزء:</b><div id="r3"></div></div>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
     <button type="button" class="btn btn-a" onclick="runLesson(true)">💡 شرح أبسط من كده</button>
-    <button type="button" class="btn btn-g" onclick="showQuiz()">🎯 اختبرني الآن</button>
+    <button type="button" class="btn btn-g" onclick="showQuiz()">🎯 اختبرني في هذا الجزء</button>
   </div>
   <button type="button" class="btn btn-s" style="width:100%;margin-top:8px" onclick="chalFriend()">🏆 تحدي الأصدقاء</button>
+  
   <div id="qz" class="card" style="display:none;background:#fffbeb">
     <b id="qzQ"></b><div id="qzO"></div><p id="qzF" style="font-weight:bold"></p>
   </div>
@@ -90,63 +122,39 @@
   </div>
 </div>
 
+<!-- شاشة الفيديو AI -->
 <div class="mod" id="mod">
   <div class="reel">
-    <div style="display:flex;justify-content:space-between"><b>📱 RayEdu Reels</b><button type="button" onclick="closeR()" style="padding:4px 10px">✕</button></div>
-    <div><h3 id="rt"></h3><p id="rx" style="background:rgba(0,0,0,0.3);padding:16px;border-radius:14px;font-size:17px"></p></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="background:#ef4444;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:bold">● AI LIVE VIDEO</span>
+      <button type="button" onclick="closeR()" style="background:rgba(255,255,255,0.2);color:#fff;border:none;border-radius:50%;width:30px;height:30px">✕</button>
+    </div>
+
+    <div class="ai-stage">
+      <img id="vImg" class="ai-visual" src="https://unsplash.com" alt="AI Scene">
+      <div class="avatar-wrap" id="avWrap">
+        <img src="https://freepik.com" style="width:100%;height:100%;object-fit:cover" alt="AI Teacher">
+      </div>
+      <div style="font-weight:bold;font-size:15px" id="rt">المعلم الذكي يشرح الآن...</div>
+      <div class="wave" id="waveBox"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:8px">🎧 استمع وشاهد (وضع المشاهدة بدون قراءة)</div>
+    </div>
+
     <div style="display:flex;gap:8px">
-      <button type="button" class="btn" style="margin:0;background:rgba(255,255,255,0.25)" onclick="mv(-1)">⬆️ السابق</button>
-      <button type="button" class="btn btn-g" style="margin:0" onclick="say()">🔊 صوت</button>
-      <button type="button" class="btn" style="margin:0;background:rgba(255,255,255,0.25)" onclick="mv(1)">⬇️ التالي</button>
+      <button type="button" class="btn" style="margin:0;background:rgba(255,255,255,0.2)" onclick="mv(-1)">⬆️ السابق</button>
+      <button type="button" class="btn btn-g" style="margin:0" onclick="playAudio()">🔊 تشغيل الصوت</button>
+      <button type="button" class="btn" style="margin:0;background:rgba(255,255,255,0.2)" onclick="mv(1)">⬇️ التالي</button>
     </div>
   </div>
 </div>
 
+<audio id="aiAudio" onended="stopAnim()"></audio>
+
 <script>
 var db=JSON.parse(localStorage.getItem('ry_db')||'{}'),sub='',cur=null,sl=[],idx=0;
-function go(id){document.querySelectorAll('.scr').forEach(e=>e.classList.remove('on'));document.getElementById(id).classList.add('on')}
-function openSetup(){
-  var k=Object.keys(db),f=document.getElementById('folders');
-  f.innerHTML=k.length?'<b>📁 موادك المحفوظة:</b><br>'+k.map(x=>'<span class="tag" onclick="pick(\''+x+'\')">📂 '+x+'</span>').join(''):'<small>اكتب اسم مادتك الأولى:</small>';
-  go('s2');
-}
-function pick(x){document.getElementById('sub').value=x;chkSub()}
-function chkSub(){var x=document.getElementById('sub').value.trim();document.getElementById('qBox').style.display=(x&&db[x])?'none':'block'}
-function saveSub(){
-  sub=document.getElementById('sub').value.trim()||'مادة عامة';
-  if(!db[sub]){db[sub]={l:document.getElementById('qLvl').value,m:document.getElementById('qMind').value};localStorage.setItem('ry_db',JSON.stringify(db))}
-  document.getElementById('subTitle').innerText='📂 '+sub;go('s3');
-}
-async function runLesson(simp){
-  var t=document.getElementById('txt').value.trim();if(!t)return alert('اكتب نص الدرس أولاً');
-  var b=document.getElementById('runB');b.disabled=true;b.innerText='⏳ جاري الشرح...';
-  var p=db[sub]||{l:'جامعي',m:'تحليلية'},pr=document.getElementById('pref').value;
-  try{
-    var r=await fetch('/api/agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lectureText:simp?'بسط هذا جداً مع أمثلة: '+t:t,mindsetAnswer:p.m,studentLevel:p.l})});
-    var d=await r.json();cur=d;
-    document.getElementById('r1').innerText=(d.mindsetType||'')+' | '+(d.weakPointDetected||'');
-    document.getElementById('r2').innerHTML=(d.microSummary||[]).map(x=>'<li>'+x+'</li>').join('');
-    document.getElementById('r3').innerHTML=(d.recommendedCourses||[]).map(c=>'<p>• <b>'+c.title+'</b> ('+c.platform+')</p>').join('');
-    document.getElementById('vBtn').style.display=(pr==='text')?'none':'block';
-    document.getElementById('tArea').style.display=(pr==='reels')?'none':'block';
-    document.getElementById('qz').style.display='none';
-    sl=[{t:'نقطة التركيز',x:d.weakPointDetected},{t:'الخلاصة 1',x:(d.microSummary||[])[0]},{t:'الخلاصة 2',x:(d.microSummary||[])[1]},{t:'سوق العمل',x:d.jobMarketValue}];
-    go('s4');if(pr==='reels')openR();
-  }catch(e){alert('حاول مرة أخرى')}
-  b.disabled=false;b.innerText='⚡ ابدأ الشرح الذكي';
-}
-function showQuiz(){
-  if(!cur)return;document.getElementById('qz').style.display='block';
-  document.getElementById('qzQ').innerText=cur.challengeQuestion||'ما الفكرة الرئيسية؟';
-  var a=cur.challengeAnswer||'الفهم العملي والتطبيق',o=[a,'الحفظ النظري فقط','تجاهل المعطيات'];
-  document.getElementById('qzO').innerHTML=o.map((x,i)=>'<button type="button" class="btn btn-s" style="display:block;width:100%;margin-top:6px;text-align:right" onclick="document.getElementById(\'qzF\').innerText='+(i===0?'\'🎉 إجابة صحيحة! أحسنت\'':'\'💡 حاول مرة أخرى\'')+'">'+x+'</button>').join('');
-}
-function chalFriend(){var m='🏆 أتحداك في مادة ('+sub+') على RayEdu: https://vercel.app';if(navigator.clipboard)navigator.clipboard.writeText(m);alert('تم نسخ رسالة التحدي لمشاركتها مع أصدقائك:\n'+m)}
-function openR(){idx=0;document.getElementById('mod').style.display='flex';sh();say()}
-function closeR(){speechSynthesis.cancel();document.getElementById('mod').style.display='none'}
-function sh(){document.getElementById('rt').innerText=sl[idx].t;document.getElementById('rx').innerText=sl[idx].x||''}
-function mv(n){speechSynthesis.cancel();if(sl[idx+n]){idx+=n;sh();say()}else closeR()}
-function say(){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(sl[idx].x);u.lang='ar-SA';speechSynthesis.speak(u)}
-</script>
-</body>
-  </html>
+var imgs=[
+  'https://unsplash.com',
+  'https://unsplash.com',
+  'https://unsplash.com',
+  'https://unsplash.com'
+];
