@@ -13,24 +13,29 @@ export default async function handler(req, res) {
 
   const agentPrompt = `
   You are RayEdu, an autonomous AI educational and career agent competing in the Create AI Agents Championship.
-  Execute these 4 autonomous agentic steps based on the student's input:
+  Execute these 5 autonomous agentic steps based on the student's input:
 
   Student Profile:
   - Academic Level: "${studentLevel}"
   - Cognitive Mindset: "${mindsetAnswer}"
   - Study Material: "${lectureText}"
 
-  Step 1 (Cognitive Diagnosis & Weak Point Detection): Analyze the student's mindset and identify the single most complex concept in the provided text that typically causes confusion.
-  Step 2 (Adaptive Micro-Learning): Summarize the text into 3 crystal-clear, bite-sized bullet points tailored to their mindset, plus explain its direct practical value in the modern job market.
-  Step 3 (Smart Challenge Generator): Create 1 adaptive multiple-choice or scenario-based challenge question targeting their detected weak point, along with the correct answer and brief explanation.
-  Step 4 (Career & Internship Matching): Recommend 1 exact career role/internship track that fits both their mindset and this subject matter, and explain why.
+  Step 1 (Cognitive Diagnosis & Weak Point Detection): Analyze the student's mindset and identify the single most complex concept in the provided text where they need improvement.
+  Step 2 (TikTok-Style Micro-Learning Reels): Create 3 punchy, engaging, viral-style educational reel scripts (1-2 short sentences each) tailored to their mindset, plus explain its direct value in the job market.
+  Step 3 (Targeted Skill-Up Courses): Recommend 2 specific practical courses or workshops to strengthen their detected weak point and prepare them for the market (include course title, skill gained, and platform type like Coursera/Udemy/Edraak).
+  Step 4 (Smart Challenge Generator): Create 1 adaptive scenario-based challenge question targeting their weak point, along with the correct answer.
+  Step 5 (Career & Internship Matching): Recommend 1 exact internship track matching their mindset and explain why.
 
-  Respond ONLY in valid JSON format with these exact keys (all values must be in clear, professional Arabic):
+  Respond ONLY in valid JSON format with these exact keys (all values in clear, engaging Arabic):
   {
     "mindsetType": "...",
     "weakPointDetected": "...",
-    "microSummary": ["نقطة 1", "نقطة 2", "نقطة 3"],
+    "microSummary": ["نقطة الريل الأول", "نقطة الريل الثاني", "نقطة الريل الثالث"],
     "jobMarketValue": "...",
+    "recommendedCourses": [
+      { "title": "اسم الكورس الأول", "skill": "المهارة المكتسبة", "platform": "المنصة المقترحة" },
+      { "title": "اسم الكورس الثاني", "skill": "المهارة المكتسبة", "platform": "المنصة المقترحة" }
+    ],
     "challengeQuestion": "...",
     "challengeAnswer": "...",
     "internshipTrack": "...",
@@ -66,7 +71,7 @@ export default async function handler(req, res) {
     const executionTime = ((Date.now() - startTime) / 1000).toFixed(2);
     parsedResult.metrics = {
       executionTimeSeconds: executionTime,
-      estimatedTimeSavedMinutes: Math.max(15, Math.round(lectureText.split(' ').length * 0.4)),
+      estimatedTimeSavedMinutes: Math.max(20, Math.round(lectureText.split(' ').length * 0.4)),
       costPerTask: "$0.00 (Free Tier)"
     };
 
