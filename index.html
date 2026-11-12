@@ -18,55 +18,77 @@
     * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
     body { background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
     
-    .navbar { background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%); color: white; padding: 25px 20px; text-align: center; box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2); }
+    .navbar { background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%); color: white; padding: 25px 20px; text-align: center; }
     .navbar .badge { background: rgba(255,255,255,0.15); padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.3); }
-    .navbar h1 { margin: 0; font-size: 28px; font-weight: 800; }
-    .navbar p { margin: 8px auto 0; max-width: 650px; color: #e0e7ff; font-size: 15px; }
+    .navbar h1 { margin: 0; font-size: 26px; font-weight: 800; }
+    .navbar p { margin: 8px auto 0; max-width: 650px; color: #e0e7ff; font-size: 14px; }
 
-    .container { max-width: 900px; margin: -20px auto 40px; padding: 0 16px; }
+    .container { max-width: 850px; margin: 20px auto 40px; padding: 0 16px; }
+    .card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #e2e8f0; }
+    .section-title { font-size: 18px; font-weight: 800; color: var(--primary-dark); margin-top: 0; margin-bottom: 16px; }
     
-    .card { background: var(--card); border-radius: 16px; padding: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); margin-bottom: 24px; border: 1px solid #e2e8f0; }
-    .section-title { font-size: 18px; font-weight: 800; color: var(--primary-dark); margin-top: 0; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
-    
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
     
     label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 14px; color: #334155; }
-    select, textarea { width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; transition: 0.2s; background: #f8fafc; }
-    select:focus, textarea:focus { outline: none; border-color: var(--primary); background: white; }
+    select, textarea { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; background: #ffffff; color: #0f172a; }
+    select:focus, textarea:focus { outline: none; border-color: var(--primary); }
     
-    .sample-btn { background: #e0e7ff; color: var(--primary-dark); border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; margin-bottom: 12px; }
-    .sample-btn:hover { background: #c7d2fe; }
+    .sample-btn { background: #e0e7ff; color: var(--primary-dark); border: 1px solid #c7d2fe; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-block; margin-bottom: 10px; }
+    .main-btn { background: #4f46e5; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 14px; }
+    .main-btn:disabled { background: #94a3b8; cursor: not-allowed; }
 
-    .main-btn { background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 16px; box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3); transition: 0.2s; }
-    .main-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4); }
-    .main-btn:disabled { background: #94a3b8; transform: none; box-shadow: none; cursor: not-allowed; }
+    .reels-launch-btn { background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 14px; box-shadow: 0 6px 15px rgba(236, 72, 153, 0.3); }
 
-    .workflow-bar { display: none; background: #1e1b4b; color: white; padding: 20px; border-radius: 14px; margin-bottom: 24px; }
-    .step-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; opacity: 0.5; transition: 0.3s; }
+    .workflow-bar { display: none; background: #1e1b4b; color: white; padding: 18px; border-radius: 14px; margin-bottom: 20px; }
+    .step-item { margin-bottom: 8px; font-size: 14px; opacity: 0.5; }
     .step-item.active { opacity: 1; font-weight: 700; color: #38bdf8; }
     .step-item.done { opacity: 1; color: #34d399; }
 
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-    .metric-card { background: #f1f5f9; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid #cbd5e1; }
-    .metric-val { font-size: 20px; font-weight: 800; color: var(--primary); }
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+    .metric-card { background: #f1f5f9; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #cbd5e1; }
+    .metric-val { font-size: 18px; font-weight: 800; color: var(--primary); }
     .metric-lbl { font-size: 12px; color: var(--muted); font-weight: 600; }
 
-    .res-block { background: #f8fafc; border-right: 4px solid var(--primary); padding: 16px 20px; border-radius: 10px; margin-bottom: 16px; }
+    .res-block { background: #f8fafc; border-right: 4px solid var(--primary); padding: 14px 18px; border-radius: 10px; margin-bottom: 14px; }
     .res-block h4 { margin: 0 0 8px; color: var(--primary-dark); font-size: 16px; }
     .res-block ul { margin: 0; padding-right: 20px; }
+
+    .course-box { background: #f5f3ff; border-right-color: #7c3aed; }
+    .course-item { background: white; border: 1px solid #ddd6fe; padding: 12px; border-radius: 10px; margin-top: 10px; }
+    .course-badge { background: #7c3aed; color: white; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
     
     .challenge-box { background: #fffbeb; border-right-color: #f59e0b; }
-    .challenge-box h4 { color: #b45309; }
     .answer-reveal { display: none; background: #fef3c7; padding: 10px; border-radius: 8px; margin-top: 10px; font-weight: 700; color: #92400e; }
-    .reveal-btn { background: #f59e0b; color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+    .reveal-btn { background: #f59e0b; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; }
 
     .career-box { background: #f0fdf4; border-right-color: #10b981; }
-    .career-box h4 { color: #065f46; }
+    .oversight-card { background: #ecfdf5; border: 2px solid #10b981; }
+    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; background: white; padding: 10px; border-radius: 10px; }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--success); }
 
-    .oversight-card { background: linear-gradient(to left, #ecfdf5, #f0f9ff); border: 2px solid #10b981; }
-    .toggle-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; background: white; padding: 12px; border-radius: 10px; }
-    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--success); cursor: pointer; }
+    .reels-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.94); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+    .reel-phone { width: 100%; max-width: 370px; height: 610px; max-height: 90vh; border-radius: 28px; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; color: white; box-shadow: 0 20px 50px rgba(0,0,0,0.7); position: relative; }
+    .reel-progress { display: flex; gap: 5px; margin-bottom: 10px; }
+    .prog-seg { flex: 1; height: 4px; background: rgba(255,255,255,0.3); border-radius: 4px; }
+    .prog-seg.active { background: white; }
+    .reel-header { display: flex; justify-content: space-between; align-items: center; }
+    .reel-tag { background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .close-reel { background: rgba(255,255,255,0.25); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; font-weight: bold; }
+    
+    .reel-main { display: flex; align-items: center; justify-content: space-between; margin: auto 0; gap: 10px; }
+    .reel-content { text-align: center; flex: 1; }
+    .reel-emoji { font-size: 46px; margin-bottom: 8px; display: block; }
+    .reel-title { font-size: 14px; opacity: 0.9; margin-bottom: 8px; font-weight: 700; }
+    .reel-text { font-size: 17px; font-weight: 800; line-height: 1.5; background: rgba(0,0,0,0.28); padding: 15px; border-radius: 16px; }
+    
+    .tiktok-sidebar { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    .tk-icon { background: rgba(255,255,255,0.2); border: none; color: white; width: 42px; height: 42px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .tk-lbl { font-size: 10px; font-weight: 700; margin-top: 2px; text-align: center; }
+
+    .reel-controls { display: flex; justify-content: space-between; gap: 8px; }
+    .reel-nav-btn { background: rgba(255,255,255,0.25); border: none; color: white; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; flex: 1; }
+    .voice-btn { background: #10b981; border: none; color: white; padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -74,7 +96,7 @@
   <div class="navbar">
     <span class="badge">🏆 Create AI Agents Championship - Prototype</span>
     <h1>RayEdu Autonomous Agent</h1>
-    <p>وكيل ذكي يشخص عقلية الطالب، يبسط المناهج المعقدة، يختبر نقاط الضعف، ويربط الكفاءات بسوق العمل بخصوصية تامة.</p>
+    <p>وكيل ذكي يشخص عقلية الطالب، يحول المناهج إلى Reels تفاعلية، يقترح كورسات لتقوية نقاط الضعف، ويربط الكفاءات بسوق العمل.</p>
   </div>
 
   <div class="container">
@@ -101,70 +123,20 @@
       </div>
 
       <div style="margin-top: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <label>نص المحاضرة أو الجزء الصعب في المنهج:</label>
-          <button type="button" class="sample-btn" onclick="fillSample()">✨ تعبئة مثال تجريبي جاهز للحكام</button>
-        </div>
-        <textarea id="lecture" rows="5" placeholder="الصق هنا فقرة من أي مادة دراسية (إدارة أعمال، برمجة، اقتصاد، هندسة...) ليقوم الوكيل بتحليلها..."></textarea>
+        <label>نص المحاضرة أو الجزء الصعب في المنهج:</label>
+        <button type="button" class="sample-btn" onclick="fillSample()">✨ اضغط هنا لتعبئة مثال تجريبي جاهز للحكام</button>
+        <textarea id="lecture" rows="4" placeholder="اكتب أو الصق هنا فقرة من أي مادة دراسية ليقوم الوكيل بتحليلها..."></textarea>
       </div>
 
-      <button id="runBtn" class="main-btn" onclick="executeAgent()">🚀 تشغيل الوكيل الذكي (بدء التشخيص والتنفيذ التلقائي)</button>
+      <button type="button" id="runBtn" class="main-btn" onclick="executeAgent()">🚀 تشغيل الوكيل الذكي (بدء التشخيص والتنفيذ التلقائي)</button>
     </div>
 
     <div id="workflowBar" class="workflow-bar">
-      <div style="font-weight: 800; margin-bottom: 12px; color: #c7d2fe;">🤖 سجل اتخاذ القرار للوكيل (Live Agent Execution Log):</div>
-      <div id="step1" class="step-item">⏳ 1. تحليل النمط العقلي واكتشاف أصعب نقطة في المنهج...</div>
-      <div id="step2" class="step-item">⏳ 2. صياغة ملخص مبسط (Micro-Learning) وربطه بسوق العمل...</div>
-      <div id="step3" class="step-item">⏳ 3. توليد سؤال تحدي ذكي لقياس الفهم...</div>
-      <div id="step4" class="step-item">⏳ 4. مطابقة الملف مع مسارات التدريب العملي المناسبة...</div>
+      <div style="font-weight: 800; margin-bottom: 10px; color: #c7d2fe;">🤖 سجل اتخاذ القرار للوكيل (Live Agent Execution Log):</div>
+      <div id="step1" class="step-item">⏳ 1. تحليل النمط العقلي واكتشاف نقاط الضعف في المنهج...</div>
+      <div id="step2" class="step-item">⏳ 2. إنتاج شرائح TikTok Reels تعليمية سريعة...</div>
+      <div id="step3" class="step-item">⏳ 3. ترشيح كورسات تدريبية لتقوية مهارات الطالب...</div>
+      <div id="step4" class="step-item">⏳ 4. توليد سؤال التحدي ومطابقة فرص التدريب العملي...</div>
     </div>
 
     <div id="resultsArea" style="display: none;">
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-val" id="mTime">1.4s</div>
-          <div class="metric-lbl">سرعة استجابة الوكيل</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val" id="mSaved">25 دقيقة</div>
-          <div class="metric-lbl">الوقت الموفر للطالب</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val" id="mCost">$0.00</div>
-          <div class="metric-lbl">تكلفة المهمة (مجاني)</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 class="section-title">📊 مخرجات الوكيل الذكي (Agent Deliverables)</h3>
-
-        <div class="res-block">
-          <h4>🧠 1. التشخيص الذكي ونقطة الضعف المكتشفة</h4>
-          <p><strong>تحليل العقلية:</strong> <span id="outMindset"></span></p>
-          <p style="margin-bottom:0;"><strong>أصعب مفهوم تم رصده في الدرس:</strong> <span id="outWeak"></span></p>
-        </div>
-
-        <div class="res-block">
-          <h4>⚡ 2. التلخيص الذكي السريع (Micro-Learning Summary)</h4>
-          <ul id="outSummary"></ul>
-          <p style="margin-top:12px; margin-bottom:0; background:#e0e7ff; padding:10px; border-radius:8px;">
-            <strong>💼 كيف تستفيد من هذا الدرس في سوق العمل؟</strong> <span id="outJobValue"></span>
-          </p>
-        </div>
-
-        <div class="res-block challenge-box">
-          <h4>🎯 3. تحدي الذكاء المخصص (Smart Assessment)</h4>
-          <p id="outChallenge" style="font-weight: 600;"></p>
-          <button class="reveal-btn" onclick="document.getElementById('outAnswer').style.display='block'">إظهار الإجابة النموذجية والشرح</button>
-          <div id="outAnswer" class="answer-reveal"></div>
-        </div>
-
-        <div class="res-block career-box">
-          <h4>🚀 4. ترشيح المسار التدريبي والمهني (Career Matching)</h4>
-          <p><strong>التدريب المرشح لك:</strong> <span id="outInternship" style="font-weight:800; color:#047857;"></span></p>
-          <p style="margin-bottom:0;"><strong>سبب الترشيح:</strong> <span id="outMatchReason"></span></p>
-        </div>
-      </div>
-
-      <div class="card oversight-card">
-        <h3 class="section-title" style="color: #065f46;">🛡️ الإشراف البشري وحماية الخصوصية (Privacy-First Oversight)</h3>
